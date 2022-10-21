@@ -7,32 +7,40 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-class Button
+class Button : public sf::Drawable
 {
 private:
 	sf::RectangleShape rectangle;
-	float m_height; //
-	float m_width; // 
-	sf::Text m_label; //
-public:
-	Button(float height, float width) : m_height(height), m_width(width)
+	float m_height; 
+	float m_width;  
+	sf::Font font;
+	sf::Text m_label; 
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
 	{
-		rectangle.setSize(sf::Vector2f(m_height, m_width));
-		m_label.setPosition(m_height, m_width); // ?????
+		target.draw(rectangle, states);
+		target.draw(m_label, states);
 	}
 
-	Button(float height, float width, const std::string& label) : m_height(height), m_width(width)
+public:
+	~Button() {};
+
+	Button(float width, float height) : m_width(width), m_height(height)
 	{
-		rectangle.setSize(sf::Vector2f(m_height, m_width));
-		sf::Font font;
+		rectangle.setSize(sf::Vector2f(m_width, m_height));
+	}
+
+	Button(float width, float height, const std::string& label) : m_width(width), m_height(height)
+	{
+		rectangle.setSize(sf::Vector2f(m_width, m_height));
 		if (!font.loadFromFile("src/arial.ttf"))
 		{
+			std::cout << "Couldn`t load font file\n";
 			return;
 		}
 		m_label.setFont(font);
-		m_label.setCharacterSize(24);
+		m_label.setCharacterSize(20);
 		m_label.setString(label);
-		m_label.setPosition(m_height, m_width); // ?????
 	}
 
 	void setColors(sf::Color buttonColor, sf::Color labelColor)
@@ -41,22 +49,21 @@ public:
 		m_label.setFillColor(labelColor);
 	}
 
-	void setLabel(const std::string& label, sf::Color labelColor)
+	void setLabel(const std::string& label)
 	{
-		sf::Font font;
 		if (!font.loadFromFile("src/arial.ttf"))
 		{
 			return;
 		}
 		m_label.setFont(font);
-		m_label.setCharacterSize(24);
-		m_label.setFillColor(labelColor);
+		m_label.setCharacterSize(20);
 		m_label.setString(label);
 	}
 
-	sf::RectangleShape& get_button() 
+	void setPosition(float x, float y)
 	{
-		return rectangle;
+		rectangle.setPosition(sf::Vector2f(x, y));
+		m_label.setPosition(x + m_width / 4, y + m_height / 4);
 	}
 };
 

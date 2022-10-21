@@ -5,7 +5,12 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1400, 800), "SFML works!");
     Button button(200, 100, "hello world");
+    button.setPosition(200, 100);
     button.setColors(sf::Color::Red, sf::Color::Yellow);
+    Button secondButton(300, 150);
+    secondButton.setPosition(700, 400);
+    secondButton.setLabel("Yo is that work???");
+    secondButton.setColors(sf::Color::Blue, sf::Color::Yellow);
     while (window.isOpen())
     {
         sf::Event event;
@@ -23,7 +28,8 @@ int main()
             }
         }
         window.clear();
-        window.draw(button.get_button());
+        window.draw(button);
+        window.draw(secondButton);
         window.display();
     }
     return 0;
