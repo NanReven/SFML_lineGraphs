@@ -1,18 +1,36 @@
 #include <SFML/Graphics.hpp>
 #include "button.h"
-#include "axis.h"
 
 int main()
 {
-    const int windowWidth = 1400;
-    const int windowHeight = 800;
+    const float windowWidth = 1400;
+    const float windowHeight = 800;
     sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "SFML works!");
 
     Button button(200, 100, "hello world"); // red button
     button.setPosition(200, 100);
     button.setColors(sf::Color::Red, sf::Color::Yellow);
 
-    Axis axisLines(window);
+    sf::VertexArray lines(sf::Lines, 40);
+    float widthStep = windowWidth / 10;
+    float heightStep = windowHeight / 10;
+    for (int i = 0; i < 40; i += 4) {
+        /* set vertical line */
+        std::cout << widthStep << " : " << heightStep << std::endl;
+        lines[i].position = sf::Vector2f(widthStep, 0);
+        lines[i].color = sf::Color::Blue;
+        lines[i + 1].position = sf::Vector2f(widthStep, windowHeight);
+        lines[i + 1].color = sf::Color::Blue;
+        /* set horizontal line */
+        lines[i + 2].position = sf::Vector2f(0, heightStep);
+        lines[i + 2].color = sf::Color::Blue;
+        lines[i + 3].position = sf::Vector2f(windowWidth, heightStep);
+        lines[i + 3].color = sf::Color::Blue;
+        widthStep += windowWidth / 10;
+        heightStep += windowHeight / 10;
+    }
+    for (int i = 16; i <= 19; i++)
+        lines[i].color = sf::Color::White;
 
     while (window.isOpen())
     {
@@ -43,7 +61,7 @@ int main()
             }
         }
         window.clear();
-        window.draw(axisLines);
+        window.draw(lines);
         window.draw(button);
         window.display();
     }
