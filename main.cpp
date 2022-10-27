@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "button.h"
+#include "axis.h"
 
 int main()
 {
@@ -11,25 +12,7 @@ int main()
     button.setPosition(windowWidth - 200, 3 * ((windowWidth - 200) / 14));
     button.setColors(sf::Color::Red, sf::Color::Yellow);
 
-    sf::VertexArray lines(sf::Lines, 56);
-    float step = (windowWidth - 200) / 14;
-    for (int i = 0; i < lines.getVertexCount(); i += 4, step += (windowWidth - 200) / 14) {
-        /* set vertical line */
-        lines[i].position = sf::Vector2f(step, 0);
-        lines[i].color = sf::Color{ 0x373737FF };
-        lines[i + 1].position = sf::Vector2f(step, windowHeight);
-        lines[i + 1].color = sf::Color{ 0x373737FF };
-        /* set horizontal line */
-        lines[i + 2].position = sf::Vector2f(0, step);
-        lines[i + 2].color = sf::Color{ 0x373737FF };
-        lines[i + 3].position = sf::Vector2f(windowWidth - 200, step);
-        lines[i + 3].color = sf::Color{ 0x373737FF };
-    }
-    
-    lines[18].color = sf::Color::White;
-    lines[19].color = sf::Color::White;
-    lines[24].color = sf::Color::White;
-    lines[25].color = sf::Color::White;
+    Axis axis(windowWidth, windowHeight, 200, 10);
 
     while (window.isOpen())
     {
@@ -60,7 +43,7 @@ int main()
             }
         }
         window.clear();
-        window.draw(lines);
+        window.draw(axis);
         window.draw(button);
         window.display();
     }
